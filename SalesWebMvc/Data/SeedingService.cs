@@ -24,6 +24,8 @@ namespace SalesWebMvc.Data
 				return;//DB has been seeded
 			}
 
+			//Tive que retirar os IDs pois no SQLSERVER existe o autoincremento de ID e se colocar o ID por aqui dá erro na aplicação
+
 			Department d1 = new Department("Computers");
 			Department d2 = new Department("Eletronics");
 			Department d3 = new Department("Fashion");

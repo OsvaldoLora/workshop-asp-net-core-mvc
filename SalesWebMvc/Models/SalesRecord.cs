@@ -18,6 +18,7 @@ namespace SalesWebMvc.Models
 		{
 		}
 
+		//Tive que retirar os IDs pois no SQLSERVER existe o autoincremento de ID e se colocar o ID por aqui dá erro na aplicação
 		public SalesRecord(DateTime date, double amount, SaleStatus status, Seller seller)
 		{			
 			Date = date;

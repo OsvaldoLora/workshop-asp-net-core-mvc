@@ -19,6 +19,7 @@ namespace SalesWebMvc.Models
 		{
 		}
 
+		//Tive que retirar os IDs pois no SQLSERVER existe o autoincremento de ID e se colocar o ID por aqui dá erro na aplicação
 		public Seller(string name, string email, DateTime birthDate, double baseSalary, Department department)
 		{			
 			Name = name;
