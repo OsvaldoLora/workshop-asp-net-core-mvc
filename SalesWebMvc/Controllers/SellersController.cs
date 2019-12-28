@@ -41,5 +41,30 @@ namespace SalesWebMvc.Controllers
 			return RedirectToAction(nameof(Index));//poderia ser ("Index"), porém essa forma é melhor para fazer manutenções futuras no site, caso o nome da index precise ser alterado não precisaremos alterar essa linha de código
 		}
 
+		public IActionResult Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var obj = _sellerService.FindById(id.Value);	
+			
+			if (obj == null)
+			{
+				return NotFound();
+			}
+
+			return View(obj);
+		}
+		
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Delete(int id)
+		{
+			_sellerService.Remove(id);
+			return RedirectToAction("Index");
+		}
+
 	}
 }

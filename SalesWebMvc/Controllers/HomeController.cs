@@ -23,7 +23,7 @@ namespace SalesWebMvc.Controllers
 			return View();
 		}
 
-		public IActionResult Privacy()
+		public ViewResult Privacy()
 		{
 			return View();
 		}
