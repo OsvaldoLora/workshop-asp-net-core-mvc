@@ -29,7 +29,7 @@ namespace SalesWebMvc.Controllers
         }
 
 		public IActionResult Create()
-		{
+		{			
 			var departments = _departmentService.FindAll();
 			var viewModel = new SellerFormViewModel { Departments = departments };
 			return View(viewModel);
@@ -39,6 +39,13 @@ namespace SalesWebMvc.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Create(Seller seller)
 		{
+			//Condicional que serve para verificar se os dados colocados no formulário de criação estão válidos caso o JavaScript não esteja funcionando
+			if (!ModelState.IsValid)
+			{
+				var departments = _departmentService.FindAll();
+				var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+				return View(viewModel);
+			}
 			_sellerService.Insert(seller);
 			return RedirectToAction(nameof(Index));//poderia ser ("Index"), porém essa forma é melhor para fazer manutenções futuras no site, caso o nome da index precise ser alterado não precisaremos alterar essa linha de código
 		}
@@ -109,6 +116,13 @@ namespace SalesWebMvc.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Edit(int id, Seller seller)
 		{
+			//Condicional que serve para verificar se os dados colocados no formulário de criação estão válidos caso o JavaScript não esteja funcionando
+			if (!ModelState.IsValid)
+			{
+				var departments = _departmentService.FindAll();
+				var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+				return View(viewModel);
+			}
 			if (id != seller.Id)
 			{
 				return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
