@@ -11,8 +11,8 @@ using System.Diagnostics;
 
 namespace SalesWebMvc.Controllers
 {
-    public class SellersController : Controller
-    {
+	public class SellersController : Controller
+	{
 		private readonly SellerService _sellerService;
 		private readonly DepartmentService _departmentService;
 
@@ -23,13 +23,13 @@ namespace SalesWebMvc.Controllers
 		}
 
 		public async Task<IActionResult> Index()
-        {
-			var list = await _sellerService.FindAllAsync();			
-            return View(list);
-        }
+		{
+			var list = await _sellerService.FindAllAsync();
+			return View(list);
+		}
 
 		public async Task<IActionResult> Create()
-		{			
+		{
 			var departments = await _departmentService.FindAllAsync();
 			var viewModel = new SellerFormViewModel { Departments = departments };
 			return View(viewModel);
@@ -57,8 +57,8 @@ namespace SalesWebMvc.Controllers
 				return RedirectToAction(nameof(Error), new { message = "Id not provided" });
 			}
 
-			var obj = await _sellerService.FindByIdAsync(id.Value);	
-			
+			var obj = await _sellerService.FindByIdAsync(id.Value);
+
 			if (obj == null)
 			{
 				return RedirectToAction(nameof(Error), new { message = "Id not provided" });
@@ -66,13 +66,20 @@ namespace SalesWebMvc.Controllers
 
 			return View(obj);
 		}
-		
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Delete(int id)
 		{
-			await _sellerService.RemoveAsync(id);
-			return RedirectToAction("Index");
+			try
+			{
+				await _sellerService.RemoveAsync(id);
+				return RedirectToAction("Index");
+			}
+			catch(IntegrityException e)
+			{
+				return RedirectToAction(nameof(Error), new { message = e.Message });
+			}
 		}
 
 		public async Task<IActionResult> Details(int? id)
